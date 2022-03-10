@@ -39,6 +39,10 @@
     "message": "Wikipedia Instance",
     "description": "Label for Wikipedia instance field option (options)."
   },
+  "tiktokInstance": {
+    "message": "TikTok Instance",
+    "description": "Label for TikTok instance field option (options)."
+  },
   "disableNitter": {
     "message": "Nitter Redirects",
     "description": "Label for enable/disable Nitter redirects option (options & pop-up)."
@@ -70,6 +74,10 @@
   "disableWikipedia": {
     "message": "Wikipedia Redirects",
     "description": "Label for enable/disable Wikipedia redirects option (options & pop-up)."
+  },
+  "disableTikTok": {
+    "message": "TikTok Redirects",
+    "description": "Label for enable/disable TikTok redirects option (options & pop-up)."
   },
   "alwaysProxy": {
     "message": "Always proxy videos through Invidious",

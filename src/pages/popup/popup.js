@@ -8,6 +8,7 @@ let disableReddit = document.querySelector("#disable-reddit");
 let disableSearchEngine = document.querySelector("#disable-searchEngine");
 let disableSimplyTranslate = document.querySelector("#disable-simplyTranslate");
 let disableWikipedia = document.querySelector("#disable-wikipedia");
+let disableTikTok = document.querySelector("#disable-tiktok");
 let version = document.querySelector("#version");
 
 window.browser = window.browser || window.chrome;
@@ -22,6 +23,7 @@ browser.storage.sync.get(
     "disableSearchEngine",
     "disableSimplyTranslate",
     "disableWikipedia",
+    "disableTikTok",
     "theme",
   ],
   (result) => {
@@ -34,6 +36,7 @@ browser.storage.sync.get(
     disableSearchEngine.checked = !result.disableSearchEngine;
     disableSimplyTranslate.checked = !result.disableSimplyTranslate;
     disableWikipedia.checked = !result.disableWikipedia;
+    disableTikTok.checked = !result.disableTikTok;
   }
 );
 
@@ -69,6 +72,10 @@ disableSimplyTranslate.addEventListener("change", (event) => {
 
 disableWikipedia.addEventListener("change", (event) => {
   browser.storage.sync.set({ disableWikipedia: !event.target.checked });
+});
+
+disableTikTok.addEventListener("change", (event) => {
+  browser.storage.sync.set({ disableTikTok: !event.target.checked });
 });
 
 document.querySelector("#more-options").addEventListener("click", () => {

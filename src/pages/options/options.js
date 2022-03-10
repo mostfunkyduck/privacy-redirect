@@ -9,6 +9,7 @@ import redditHelper from "../../assets/javascripts/helpers/reddit.js";
 import searchHelper from "../../assets/javascripts/helpers/google-search.js";
 import googleTranslateHelper from "../../assets/javascripts/helpers/google-translate.js";
 import wikipediaHelper from "../../assets/javascripts/helpers/wikipedia.js";
+import tiktokHelper from "../../assets/javascripts/helpers/tiktok.js";
 
 const nitterInstances = twitterHelper.redirects;
 const invidiousInstances = youtubeHelper.redirects;
@@ -18,6 +19,7 @@ const redditInstances = redditHelper.redirects;
 const searchEngineInstances = searchHelper.redirects;
 const simplyTranslateInstances = googleTranslateHelper.redirects;
 const wikipediaInstances = wikipediaHelper.redirects;
+const tiktokInstances = tiktokHelper.redirects;
 const autocompletes = [
   { id: "nitter-instance", instances: nitterInstances },
   { id: "invidious-instance", instances: invidiousInstances },
@@ -30,6 +32,7 @@ const autocompletes = [
   },
   { id: "simply-translate-instance", instances: simplyTranslateInstances },
   { id: "wikipedia-instance", instances: wikipediaInstances },
+  { id: "tiktok-instance", instances: tiktokInstances },
 ];
 const domparser = new DOMParser();
 
@@ -43,6 +46,7 @@ let simplyTranslateInstance = document.getElementById(
   "simply-translate-instance"
 );
 let wikipediaInstance = document.getElementById("wikipedia-instance");
+let tiktokInstance = document.getElementById("tiktok-instance");
 let disableNitter = document.getElementById("disable-nitter");
 let disableInvidious = document.getElementById("disable-invidious");
 let disableBibliogram = document.getElementById("disable-bibliogram");
@@ -53,6 +57,7 @@ let disableSimplyTranslate = document.getElementById(
   "disable-simply-translate"
 );
 let disableWikipedia = document.getElementById("disable-wikipedia");
+let disableTikTok = document.getElementById("disable-tiktok");
 let alwaysProxy = document.getElementById("always-proxy");
 let onlyEmbeddedVideo = document.getElementById("only-embed");
 let videoQuality = document.getElementById("video-quality");
@@ -106,6 +111,7 @@ browser.storage.sync.get(
     "searchEngineInstance",
     "simplyTranslateInstance",
     "wikipediaInstance",
+    "tiktokInstance",
     "disableNitter",
     "disableInvidious",
     "disableBibliogram",
@@ -143,6 +149,7 @@ browser.storage.sync.get(
       (result.searchEngineInstance && result.searchEngineInstance.link) || "";
     simplyTranslateInstance.value = result.simplyTranslateInstance || "";
     wikipediaInstance.value = result.wikipediaInstance || "";
+    tiktokInstance.value = result.tiktokInstance || "";
     disableNitter.checked = !result.disableNitter;
     disableInvidious.checked = !result.disableInvidious;
     disableBibliogram.checked = !result.disableBibliogram;
@@ -347,6 +354,18 @@ const wikipediaInstanceChange = debounce(() => {
 wikipediaInstance.addEventListener(
   "input",
   wikipediaInstanceChange
+);
+
+const tiktokInstanceChange = debounce(() => {
+  if (tiktokInstance.checkValidity()) {
+    browser.storage.sync.set({
+      tiktokInstance: parseURL(tiktokInstance.value),
+    });
+  }
+}, 500);
+tiktokInstance.addEventListener(
+  "input",
+  tiktokInstanceChange
 );
 
 disableNitter.addEventListener("change", (event) => {

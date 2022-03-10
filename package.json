@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/SimonBrazell/privacy-redirect#readme",
   "devDependencies": {
+    "eslint": "^8.10.0",
     "web-ext": "^6.7.0"
   }
 }

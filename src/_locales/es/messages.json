@@ -39,6 +39,10 @@
     "message": "Instancia de Wikipedia",
     "description": "Etiqueta del campo para la instancia de Wikipedia (opciones)."
   },
+  "tiktokInstance": {
+    "message": "Instancia de TikTok",
+    "description": "Etiqueta del campo para la instancia de TikTok (opciones)."
+  },
   "disableNitter": {
     "message": "Redirecciones de Nitter",
     "description": "Etiqueta para activar/desactivar la opción de redirecciones de Nitter (opciones y pop-up)."
@@ -70,6 +74,10 @@
   "disableWikipedia": {
     "message": "Redirecciones de Wikipedia",
     "description": "Etiqueta para activar/desactivar la opción de redirecciones de Wikipedia (opciones y pop-up)."
+  },
+  "disableTikTok": {
+    "message": "Redirecciones de TikTok",
+    "description": "Etiqueta para activar/desactivar la opción de redirecciones de TikTok (opciones y pop-up)."
   },
   "alwaysProxy": {
     "message": "Siempre usar el proxy de Invidious para videos",

@@ -9,6 +9,7 @@ import redditHelper from "../../assets/javascripts/helpers/reddit.js";
 import searchHelper from "../../assets/javascripts/helpers/google-search.js";
 import googleTranslateHelper from "../../assets/javascripts/helpers/google-translate.js";
 import wikipediaHelper from "../../assets/javascripts/helpers/wikipedia.js";
+import tiktokHelper from "../../assets/javascripts/helpers/tiktok.js";
 
 const nitterInstances = twitterHelper.redirects;
 const twitterDomains = twitterHelper.targets;
@@ -37,6 +38,9 @@ const googleTranslateDomains = googleTranslateHelper.targets;
 const wikipediaInstances = wikipediaHelper.redirects;
 const wikipediaDefault = wikipediaInstances[0];
 const wikipediaRegex = wikipediaHelper.targets;
+const tiktokInstances = tiktokHelper.redirects;
+const tiktokDefault = tiktokInstances[0];
+const tiktokRegex = tiktokHelper.targets;
 
 let disableNitter;
 let disableInvidious;
@@ -46,6 +50,7 @@ let disableReddit;
 let disableSearchEngine;
 let disableSimplyTranslate;
 let disableWikipedia;
+let disableTikTok;
 let nitterInstance;
 let invidiousInstance;
 let bibliogramInstance;
@@ -54,6 +59,7 @@ let redditInstance;
 let searchEngineInstance;
 let simplyTranslateInstance;
 let wikipediaInstance;
+let tiktokInstance;
 let alwaysProxy;
 let onlyEmbeddedVideo;
 let videoQuality;
@@ -80,6 +86,7 @@ browser.storage.sync.get(
     "searchEngineInstance",
     "simplyTranslateInstance",
     "wikipediaInstance",
+    "tiktokInstance",
     "disableNitter",
     "disableInvidious",
     "disableBibliogram",
@@ -88,6 +95,7 @@ browser.storage.sync.get(
     "disableSearchEngine",
     "disableSimplyTranslate",
     "disableWikipedia",
+    "disableTikTok",
     "alwaysProxy",
     "onlyEmbeddedVideo",
     "videoQuality",
@@ -112,6 +120,7 @@ browser.storage.sync.get(
     simplyTranslateInstance =
       result.simplyTranslateInstance || simplyTranslateDefault;
     wikipediaInstance = result.wikipediaInstance || wikipediaDefault;
+    tiktokInstance = result.tiktokInstance || tiktokDefault;
     disableNitter = result.disableNitter;
     disableInvidious = result.disableInvidious;
     disableBibliogram = result.disableBibliogram;
@@ -119,6 +128,7 @@ browser.storage.sync.get(
     disableReddit = result.disableReddit;
     disableSearchEngine = result.disableSearchEngine;
     disableWikipedia = result.disableWikipedia;
+    disableTikTok = result.TikTok;
     disableSimplyTranslate = result.disableSimplyTranslate;
     alwaysProxy = result.alwaysProxy;
     onlyEmbeddedVideo = result.onlyEmbeddedVideo;
@@ -166,6 +176,9 @@ browser.storage.onChanged.addListener((changes) => {
   if ("wikipediaInstance" in changes) {
     wikipediaInstance = changes.wikipediaInstance.newValue || wikipediaDefault;
   }
+  if ("tiktokInstance" in changes) {
+    tiktokInstance = changes.tiktokInstance.newValue || tiktokDefault;
+  }
   if ("redditInstance" in changes) {
     redditInstance = changes.redditInstance.newValue || redditDefault;
   }
@@ -195,6 +208,9 @@ browser.storage.onChanged.addListener((changes) => {
   }
   if ("disableWikipedia" in changes) {
     disableWikipedia = changes.disableWikipedia.newValue;
+  }
+  if ("disableTikTok" in changes) {
+    disableTikTok = changes.disableTikTok.newValue;
   }
   if ("alwaysProxy" in changes) {
     alwaysProxy = changes.alwaysProxy.newValue;
@@ -541,6 +557,14 @@ function redirectGoogleTranslate(url, initiator) {
   return `${simplyTranslateInstance}/${url.search}`;
 }
 
+function redirectTikTok(url, initiator) {
+  if (disableTikTok || isException(url, initiator)) {
+    return null;
+  }
+
+  return `${tiktokInstance}${url.pathname}${url.search}`;
+}
+
 function redirectWikipedia(url, initiator) {
   if (disableWikipedia || isException(url, initiator)) {
     return null;
@@ -618,6 +642,10 @@ browser.webRequest.onBeforeRequest.addListener(
     } else if (url.host.match(wikipediaRegex)) {
       redirect = {
         redirectUrl: redirectWikipedia(url, initiator),
+      };
+    } else if (url.host.match(tiktokRegex)) {
+      redirect = {
+        redirectUrl: redirectTikTok(url, initiator),
       };
     }
     if (redirect && redirect.redirectUrl) {
